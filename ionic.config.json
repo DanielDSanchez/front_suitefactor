@@ -1,0 +1,7 @@
+{
+  "name": "suitefactor_front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
