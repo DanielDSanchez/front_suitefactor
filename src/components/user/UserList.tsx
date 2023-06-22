@@ -9,7 +9,6 @@ import {
 } from '@ionic/react';
 import { pencilOutline, closeCircleOutline, add, addOutline } from 'ionicons/icons';
 import { eliminarUsuario, buscarUsuarios, buscarCharacter } from './UserApi';
-
 import Usuario from '../../models/Usuario';
 import character from '../../models/characters';
 

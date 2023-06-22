@@ -11,6 +11,7 @@ import electronIsDev from 'electron-is-dev';
 import electronServe from 'electron-serve';
 import windowStateKeeper from 'electron-window-state';
 import { join } from 'path';
+import getMAC, { isMAC } from 'getmac'
 
 // Define components for a watcher to detect when the webapp is changed so we can reload in Dev mode.
 const reloadWatcher = {
@@ -194,12 +195,18 @@ export class ElectronCapacitorApp {
         event.preventDefault();
       }
     });
+    const macAddress = getMAC();
+    this.MainWindow.webContents.on('did-finish-load', () => {
+      this.MainWindow.webContents.executeJavaScript(`window.macAddress ='${macAddress}';`);
+    });
 
     // Link electron plugins into the system.
     setupCapacitorElectronPlugins();
 
     // When the web app is loaded we hide the splashscreen if needed and show the mainwindow.
     this.MainWindow.webContents.on('dom-ready', () => {
+
+
       if (this.CapacitorFileConfig.electron?.splashScreenEnabled) {
         this.SplashScreen.getSplashWindow().hide();
       }
@@ -215,6 +222,9 @@ export class ElectronCapacitorApp {
     });
   }
 }
+
+
+
 
 // Set a CSP up for our application based on the custom scheme
 export function setupContentSecurityPolicy(customScheme: string): void {
